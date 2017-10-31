@@ -30,7 +30,7 @@ public class Category implements Serializable {
 
 	@OneToMany(targetEntity = Motel.class, mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
-	Set<Motel> motels;
+	private Set<Motel> motels;
 
 	public Integer getId() {
 		return id;
