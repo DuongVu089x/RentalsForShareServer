@@ -1,5 +1,11 @@
 package com.rentalsforshare.common.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
+
+
 public class Constants {
 	/** The Constant STR_FORMAT_DATE. */
 	public static final String STR_FORMAT_DATE = "dd/MM/yyyy";
@@ -42,4 +48,7 @@ public class Constants {
 
 	/** The Constant STR_403_PAGE. */
 	public static final String STR_403_PAGE = "403";
+	
+	
+	public static final JSONObject MSG_MESSAGE= new JSONObject();
 }
