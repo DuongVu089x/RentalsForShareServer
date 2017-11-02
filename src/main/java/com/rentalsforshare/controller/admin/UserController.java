@@ -22,6 +22,7 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody User data) throws Exception {
 		System.out.println(data.getEmail());
 		User user = userService.getByEmail(data.getEmail());
+		System.out.println(user.getEmail());
 		if (user != null) {
 			if (user.getPassword().equals(data.getPassword())) {
 				return new ResponseEntity<>(HttpStatus.OK);
