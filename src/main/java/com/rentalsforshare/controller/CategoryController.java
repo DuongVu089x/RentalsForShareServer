@@ -18,7 +18,7 @@ import com.rentalsforshare.entity.Category;
 import com.rentalsforshare.service.CategoryService;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("api/category")
 public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;

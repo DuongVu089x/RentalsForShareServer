@@ -1,12 +1,10 @@
 package com.rentalsforshare.common.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.simple.JSONObject;
-
-
 public class Constants {
+	
+	/** The Constant STR_BLANK. */
+	public static final String STR_BLANK = "";
+	
 	/** The Constant STR_FORMAT_DATE. */
 	public static final String STR_FORMAT_DATE = "dd/MM/yyyy";
 
@@ -21,7 +19,7 @@ public class Constants {
 
 	/** The Constant STR_UPDATE_UNSUCCESS. */
 	public static final String STR_UPDATE_UNSUCCESS = "Update unsucssess";
-	
+
 	/** The Constant STR_UPDATE_UNSUCCESS. */
 	public static final String STR_UPDATE_SUCCESS = "Update sucssess";
 
@@ -30,7 +28,7 @@ public class Constants {
 
 	/** The Constant STR_DELETE_SUCCESS. */
 	public static final String STR_DELETE_SUCCESS = "Delete success";
-	
+
 	/** The Constant PAGE_SIZE. */
 	public static final int PAGE_SIZE = 5;
 
@@ -54,7 +52,11 @@ public class Constants {
 
 	/** The Constant STR_403_PAGE. */
 	public static final String STR_403_PAGE = "403";
-	
+
 	public static final String STR_RESULT = "result";
-	
+
+	public static final String STR_ROLE_USER = "user";
+	public static final String STR_ROLE_MOD = "mod";
+	public static final String STR_ROLE_ADMIN = "admin";
+
 }

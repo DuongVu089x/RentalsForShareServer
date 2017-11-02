@@ -1,10 +1,14 @@
 package com.rentalsforshare.config.token;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
+
+import com.rentalsforshare.common.util.Constants;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,7 +21,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class HandlerToken {
 
 	/** The secret. */
-	private final String secret= "DAV_SERVER";
+	private final String secret = "DAV_SERVER";
+	private static final List<String> tokens = new ArrayList<>();
 
 	/**
 	 * Parses the user from token.
@@ -26,8 +31,15 @@ public class HandlerToken {
 	 * @return the string
 	 */
 	public String parseUserFromToken(String token) {
-		String username = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
-		return username;
+		String result = Constants.STR_BLANK;
+		if (tokens.contains(token)) {
+			try {
+				result = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+			} catch (Exception e) {
+				tokens.remove(token);
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -40,12 +52,9 @@ public class HandlerToken {
 		Date now = new Date();
 		Date expiration = new Date(now.getTime() + TimeUnit.HOURS.toMillis(1l));
 
-		return Jwts.builder()
-				.setId(UUID.randomUUID().toString())
-				.setSubject(username)
-				.setIssuedAt(now)
-				.setExpiration(expiration)
-				.signWith(SignatureAlgorithm.HS512, secret)
-				.compact();
+		String result = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(username).setIssuedAt(now)
+				.setExpiration(expiration).signWith(SignatureAlgorithm.HS512, secret).compact();
+		tokens.add(result);
+		return result;
 	}
 }
