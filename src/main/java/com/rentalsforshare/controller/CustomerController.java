@@ -1,5 +1,8 @@
 package com.rentalsforshare.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,7 +40,9 @@ public class CustomerController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		if (customerService.inserCustomer(data)) {
-			return new ResponseEntity<>(Constants.MSG_MESSAGE.put("message", "Insert success"), HttpStatus.OK);
+			Map<String, String> result = new HashMap<>();
+			result.put(Constants.STR_RESULT, Constants.STR_INSERT_SUCCESS);
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
@@ -49,6 +54,8 @@ public class CustomerController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		if (customerService.updateCustomer(data)) {
+			Map<String, String> result = new HashMap<>();
+			result.put(Constants.STR_RESULT, Constants.STR_UPDATE_SUCCESS);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -59,7 +66,9 @@ public class CustomerController {
 			throws Exception {
 		if (customerService.getById(id) != null) {
 			if (customerService.deleteCustomer(id)) {
-				return new ResponseEntity<>(new String("Delete success"), HttpStatus.OK);
+				Map<String, String> result = new HashMap<>();
+				result.put(Constants.STR_RESULT, Constants.STR_DELETE_SUCCESS);
+				return new ResponseEntity<>(result, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}

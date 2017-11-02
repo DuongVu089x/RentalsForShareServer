@@ -21,10 +21,16 @@ public class Constants {
 
 	/** The Constant STR_UPDATE_UNSUCCESS. */
 	public static final String STR_UPDATE_UNSUCCESS = "Update unsucssess";
+	
+	/** The Constant STR_UPDATE_UNSUCCESS. */
+	public static final String STR_UPDATE_SUCCESS = "Update sucssess";
 
 	/** The Constant STR_INSERT_SUCCESS. */
 	public static final String STR_INSERT_SUCCESS = "Insert success";
 
+	/** The Constant STR_DELETE_SUCCESS. */
+	public static final String STR_DELETE_SUCCESS = "Delete success";
+	
 	/** The Constant PAGE_SIZE. */
 	public static final int PAGE_SIZE = 5;
 
@@ -49,6 +55,6 @@ public class Constants {
 	/** The Constant STR_403_PAGE. */
 	public static final String STR_403_PAGE = "403";
 	
+	public static final String STR_RESULT = "result";
 	
-	public static final JSONObject MSG_MESSAGE= new JSONObject();
 }
