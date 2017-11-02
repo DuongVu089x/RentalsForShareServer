@@ -7,7 +7,9 @@ public interface CategoryService {
 	
 	Category getById(Integer id);
 	
-	void insertCategory(Category category) throws Exception;
+	boolean insertCategory(Category category) throws Exception;
 	
-	void delete(Integer id) throws Exception;
+	boolean updateCategory(Category category) throws Exception;
+	
+	boolean delete(Integer id) throws Exception;
 }

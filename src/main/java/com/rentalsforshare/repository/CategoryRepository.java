@@ -15,6 +15,5 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	
 //	@Modifying
 //	void insert(Category category) throws Exception;
-	@Modifying
-	void delete(Integer id);
+	
 }

@@ -26,15 +26,30 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void insertCategory(Category category) throws Exception
+	public boolean insertCategory(Category category) throws Exception
 	{
-		categoryRepository.save(category);
+		return categoryRepository.saveAndFlush(category) != null ? true : false;
 	}
 	
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void delete(Integer id) throws Exception
+	public boolean updateCategory(Category category) throws Exception
 	{
-		categoryRepository.delete(id);
+		return categoryRepository.save(category) != null ? true : false;
+	}
+	
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean delete(Integer id) throws Exception
+	{
+		boolean result = false;
+		try {
+			categoryRepository.delete(id);
+			result = true;
+		} catch (Exception e) {
+			throw (e);
+		}
+		return result;
+		
 	}
 }

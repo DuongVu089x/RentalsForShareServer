@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rentalsforshare.common.util.Constants;
 import com.rentalsforshare.entity.Category;
 
 import com.rentalsforshare.service.CategoryService;
@@ -21,15 +23,14 @@ public class CategoryController {
 	
 	@RequestMapping(value = "/get-by-name", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> getByName(@RequestBody Category data) throws Exception {
-		System.out.println(data.getName());
-		Category category = categoryService.getByName(data.getName());	
-		
+		//System.out.println(data.getName());
+		Category category = categoryService.getByName(data.getName());			
 		
 		if (category != null) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(category,HttpStatus.OK);
 		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
 	}
 	
 	@RequestMapping(value = "/get-by-id", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -46,34 +47,53 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String insert(@RequestBody Category data)  {
-		System.out.println(data.getName());			
-			try {
-				categoryService.insertCategory(data);
-				return "Success";
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return "Fail";
-			}
-			
+	public ResponseEntity<?> insert(@RequestBody Category data) throws Exception  {
+		//System.out.println(data.getName());	
+		if(categoryService.getByName(data.getName()) != null)
+		{
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		
+		if(categoryService.insertCategory(data))
+		{
+			return new ResponseEntity<>(new String ("Insert success"), HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		
 		
 	}
-	
-	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public String insert(@RequestBody Integer id) throws Exception  {
-		Category category = categoryService.getById(id);
-		System.out.println(category.getName());
-		if(category != null)
+	@RequestMapping(value = "/insert", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?> updateCategory(@RequestParam(required = true, defaultValue = "0", value = "id") int id,
+			 		@RequestBody Category data) throws Exception 
+	{
+		if(categoryService.getById(id) == null)
 		{
-			String ms = "Delete student " + category.getName();
-			//categoryService.delete(id);
-			
-			return ms;
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		else
-			return "Not found";
+		if(categoryService.updateCategory(data))
+		{
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?> deleteCategory(@RequestParam(required = true, defaultValue = "0", value = "id") int id) throws Exception  {
+		if(categoryService.getById(id) != null)
+		{
+			if(categoryService.delete(id))
+			{
+				return new ResponseEntity<>(new String("Delete success"), HttpStatus.OK);
+			}
+			else
+			{
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
 		
 		
 	}
