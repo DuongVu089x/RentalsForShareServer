@@ -21,10 +21,19 @@ import com.rentalsforshare.service.MotelService;
 @RestController
 @RequestMapping("/api/motel")
 public class MotelController {
-	
+
 	@Autowired
 	private MotelService motelService;
-	/*CITY*/
+
+	@RequestMapping(value = "/search", params = { "keyword", "page" }, method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?> search(@RequestParam(value = "keyword") String keyword,
+			@RequestParam(value = "page") int page) throws Exception {
+		return new ResponseEntity<>(motelService.searchByPageAndKeyword(keyword, page), HttpStatus.BAD_REQUEST);
+
+	}
+
+	/* CITY */
 	@RequestMapping(value = "/get-by-city", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> getByCity(@RequestBody Motel data) throws Exception {
@@ -35,7 +44,8 @@ public class MotelController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 	}
-	/*WARD*/
+
+	/* WARD */
 	@RequestMapping(value = "/get-by-ward", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> getByWard(@RequestBody Motel data) throws Exception {
@@ -46,8 +56,8 @@ public class MotelController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 	}
-	
-	/*STREET*/
+
+	/* STREET */
 	@RequestMapping(value = "/get-by-street", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> getByStreet(@RequestBody Motel data) throws Exception {
@@ -58,8 +68,7 @@ public class MotelController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 	}
-	
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> updateMotel(@RequestParam(required = true, defaultValue = "0", value = "id") int id,
 			@RequestBody Motel data) throws Exception {
@@ -73,7 +82,7 @@ public class MotelController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> deleteMotel(@RequestParam(required = true, defaultValue = "0", value = "id") int id)
 			throws Exception {
@@ -88,8 +97,5 @@ public class MotelController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
-
-	
-	
 
 }

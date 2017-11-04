@@ -1,14 +1,19 @@
 package com.rentalsforshare.service;
 
 
+import org.springframework.data.domain.Page;
+
 import com.rentalsforshare.entity.Motel;
 
 public interface MotelService {
-	Motel getByCity(String city);
-	Motel getByWard(String ward);
-	Motel getByStreet(String street);
 	
-	Motel getById(Integer id);
+	Page<Motel> searchByPageAndKeyword(String keyword, int page) throws Exception;
+	
+	Motel getByCity(String city) throws Exception;
+	Motel getByWard(String ward) throws Exception;
+	Motel getByStreet(String street) throws Exception;
+	
+	Motel getById(Integer id) throws Exception;
 	
 	boolean insertMotel(Motel motel) throws Exception;
 	

@@ -54,16 +54,16 @@ public class JwtFilter extends GenericFilterBean {
 			response.setStatus(HttpServletResponse.SC_OK);
 			chain.doFilter(req, res);
 		}
-		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa đăng nhập");
-			return;
-		}
-
-		String infoUser = tokenHandler.parseUserFromToken(authHeader.substring(7));
-		if (infoUser.equals(Constants.STR_BLANK)) {
-			return;
-		}
+//		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+//			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa đăng nhập");
+//			return;
+//		}
+//
+//		String infoUser = tokenHandler.parseUserFromToken(authHeader.substring(7));
+//		if (infoUser.equals(Constants.STR_BLANK)) {
+//			return;
+//		}
 
 		chain.doFilter(req, res);
 	}

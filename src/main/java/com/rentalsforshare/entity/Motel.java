@@ -29,6 +29,10 @@ public class Motel implements Serializable {
 	private String city;
 	private String ward;
 	private String street;
+	private String address;
+	private String latitude;
+	private String longitude;
+	private Boolean available;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Category.class)
 	@JoinColumn(name = "categoryId")
@@ -84,6 +88,38 @@ public class Motel implements Serializable {
 
 	public void setStreet(String street) {
 		this.street = street;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public Boolean getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(Boolean available) {
+		this.available = available;
 	}
 
 	public Category getCategory() {

@@ -30,7 +30,7 @@ public class Constants {
 	public static final String STR_DELETE_SUCCESS = "Delete success";
 
 	/** The Constant PAGE_SIZE. */
-	public static final int PAGE_SIZE = 5;
+	public static final int PAGE_SIZE = 20;
 
 	/** The Constant STR_PATH_NOT_FOUND. */
 	public static final String STR_PATH_NOT_FOUND = "/404";
