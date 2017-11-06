@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.rentalsforshare.common.util.Constants;
@@ -27,7 +30,7 @@ public class JwtFilter extends GenericFilterBean {
 	/** The token handler. */
 	@Autowired
 	private HandlerToken tokenHandler;
-	
+
 	/** The list user. */
 	List<HashMap<String, String>> listUser = new ArrayList<HashMap<String, String>>();
 
@@ -46,26 +49,36 @@ public class JwtFilter extends GenericFilterBean {
 		final String authHeader = request.getHeader("authorization");
 
 		String url = request.getRequestURI();
-		if (url.contains("login") || url.contains("register") || url.contains("logout") || url.contains("forgot")) {
-			chain.doFilter(req, res);
-		}
-
 		if ("OPTIONS".equals(request.getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);
 			chain.doFilter(req, res);
-		}
-//		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-//			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa đăng nhập");
-//			return;
-//		}
-//
-//		String infoUser = tokenHandler.parseUserFromToken(authHeader.substring(7));
-//		if (infoUser.equals(Constants.STR_BLANK)) {
-//			return;
-//		}
+		} else if (url.contains("login") || url.contains("register") || url.contains("logout")
+				|| url.contains("forgot")) {
+			chain.doFilter(req, res);
+		} else {
+			createService(req);
+			if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa đăng nhập");
+				return;
+			} else {
+				String infoUser = tokenHandler.parseUserFromToken(authHeader.substring(7));
+				if (infoUser.equals(Constants.STR_BLANK)) {
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa đăng nhập");
+					return;
+				}
+				String role = infoUser.split("-")[0];
+				String email = infoUser.split("-")[1];
 
-		chain.doFilter(req, res);
+				if (role.equals("user") && url.contains("admin")) {
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa đăng nhập");
+					return;
+				}
+				chain.doFilter(req, res);
+			}
+		}
 	}
 
 	/**
@@ -75,5 +88,11 @@ public class JwtFilter extends GenericFilterBean {
 	 *            the request
 	 */
 	private void createService(ServletRequest request) {
+		ServletContext servletContext = request.getServletContext();
+		WebApplicationContext webApplicationContext = WebApplicationContextUtils
+				.getWebApplicationContext(servletContext);
+		if (tokenHandler == null) {
+			tokenHandler = webApplicationContext.getBean(HandlerToken.class);
+		}
 	}
 }

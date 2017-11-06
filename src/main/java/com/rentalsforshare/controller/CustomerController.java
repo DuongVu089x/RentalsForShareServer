@@ -39,7 +39,8 @@ public class CustomerController {
 
 			Map<String, String> result = new HashMap<String, String>();
 			result.put("id", customer.getId() + "");
-			result.put("access_token", "Bearer " + handlerToken.createTokenForUser(Constants.STR_ROLE_USER + customer.getEmail()));
+			result.put("access_token",
+					"Bearer " + handlerToken.createTokenForUser(Constants.STR_ROLE_USER + "-" + customer.getEmail()));
 			result.put("email", customer.getEmail());
 			result.put("username", customer.getUserName());
 			result.put("avatar", customer.getAvatar());
@@ -51,7 +52,8 @@ public class CustomerController {
 
 	@RequestMapping(value = "/get-by-email", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<?> getByEmail(@RequestBody Customer data) throws Exception {
+	public ResponseEntity<?> getByEmail(@RequestBody Customer data)
+			throws Exception {
 		Customer customer = customerService.getByEmail(data.getEmail());
 		if (customer != null) {
 			return new ResponseEntity<>(customer, HttpStatus.OK);
@@ -64,9 +66,7 @@ public class CustomerController {
 		if (customerService.getByEmail(data.getEmail()) != null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
-
 		data.setPassword(passwordEncoder.encode(data.getPassword()));
-
 		if (customerService.inserCustomer(data)) {
 			Map<String, String> result = new HashMap<>();
 			result.put(Constants.STR_RESULT, Constants.STR_INSERT_SUCCESS);
