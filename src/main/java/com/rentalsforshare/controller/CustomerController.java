@@ -36,7 +36,6 @@ public class CustomerController {
 	public ResponseEntity<?> login(@RequestBody Customer data) throws Exception {
 		Customer customer = customerService.getByEmail(data.getEmail());
 		if (customer != null && passwordEncoder.matches(data.getPassword(), customer.getPassword())) {
-
 			Map<String, String> result = new HashMap<String, String>();
 			result.put("id", customer.getId() + "");
 			result.put("access_token",

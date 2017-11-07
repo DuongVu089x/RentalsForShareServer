@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -89,5 +90,12 @@ public class CategoryController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
-
+	
+	@RequestMapping(value = "/get-by-page-and-keyword", method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?>  getByPageAndKeyword(
+			@RequestParam(required = true, defaultValue = "0", value = "page") int page,
+			@RequestParam(required = true, defaultValue = "", value = "filter") String filter) throws Exception {
+		return new ResponseEntity<>(categoryService.getByPageAndKeyword(page, filter),HttpStatus.NOT_FOUND);
+	}
 }
