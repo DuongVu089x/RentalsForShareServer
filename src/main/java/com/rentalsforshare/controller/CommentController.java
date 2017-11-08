@@ -27,10 +27,10 @@ public class CommentController {
 	
 	
 	@RequestMapping(value = "/get-by-id", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<?> getById(@RequestBody Comment data) throws Exception {
-		Comment comment = commentService.getById(data.getId());
+	public ResponseEntity<?> getById(@RequestParam(required = true, defaultValue = "0", value = "id") int id) throws Exception {
+		Comment comment = commentService.getById(id);
 		if (comment != null) {
-			return new ResponseEntity<>(data, HttpStatus.OK);
+			return new ResponseEntity<>(comment, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -81,4 +81,14 @@ public class CommentController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 	}
+	
+	@RequestMapping(value = "/get-by-page-and-keyword", method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?>  getByPageAndKeyword(
+			@RequestParam(required = true, defaultValue = "0", value = "page") int page,
+			@RequestParam(required = true, defaultValue = "", value = "filter") String filter) throws Exception {
+		return new ResponseEntity<>(commentService.getByPageAndKeyword(page, filter),HttpStatus.NOT_FOUND);
+	}
+	
+	
 }

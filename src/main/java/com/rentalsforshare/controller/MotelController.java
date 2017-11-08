@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rentalsforshare.common.util.Constants;
-
+import com.rentalsforshare.entity.Comment;
 import com.rentalsforshare.entity.Motel;
+import com.rentalsforshare.entity.Vote;
 import com.rentalsforshare.service.MotelService;
 
 @RestController
@@ -32,7 +33,15 @@ public class MotelController {
 		return new ResponseEntity<>(motelService.searchByPageAndKeyword(keyword, page), HttpStatus.BAD_REQUEST);
 
 	}
-
+	@RequestMapping(value = "/get-by-id", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?> getById(@RequestParam(required = true, defaultValue = "0", value = "id") int id) throws Exception {
+		Motel motel = motelService.getById(id);
+		if (motel != null) {
+			return new ResponseEntity<>(motel, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	/* CITY */
 	@RequestMapping(value = "/get-by-city", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
@@ -65,6 +74,22 @@ public class MotelController {
 		if (motel != null) {
 			return new ResponseEntity<>(motel, HttpStatus.OK);
 		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+	}
+	
+	@RequestMapping(value = "/insert", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?> insert(@RequestBody Motel data) throws Exception {
+		
+		/*CHECK SOMETHING HERE?*/
+		
+		
+		if (motelService.insertMotel(data)) {
+			Map<String, String> result = new HashMap<>();
+			result.put(Constants.STR_RESULT, Constants.STR_INSERT_SUCCESS);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 	}

@@ -1,9 +1,14 @@
 package com.rentalsforshare.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rentalsforshare.common.util.Constants;
+import com.rentalsforshare.entity.Category;
 import com.rentalsforshare.entity.Customer;
 import com.rentalsforshare.entity.admin.User;
 import com.rentalsforshare.repository.CustomerRepository;
@@ -51,4 +56,10 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findOne(id);
 	}
 
+
+	@Override
+	public Page<Customer> getByPageAndKeyword(int page,  String filter) throws Exception {
+		PageRequest request = new PageRequest(page - 1, Constants.PAGE_SIZE, Sort.Direction.ASC, "id");
+		return customerRepository.getByPageAndKeyword(filter, request);
+	}
 }

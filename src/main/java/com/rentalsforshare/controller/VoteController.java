@@ -27,10 +27,10 @@ public class VoteController {
 	
 	
 	@RequestMapping(value = "/get-by-id", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<?> getById(@RequestBody Vote data) throws Exception {
-		Vote vote = voteService.getById(data.getId());
+	public ResponseEntity<?> getById(@RequestParam(required = true, defaultValue = "0", value = "id") int id) throws Exception {
+		Vote vote = voteService.getById(id);
 		if (vote != null) {
-			return new ResponseEntity<>(data, HttpStatus.OK);
+			return new ResponseEntity<>(vote, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

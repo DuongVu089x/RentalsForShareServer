@@ -1,8 +1,13 @@
 package com.rentalsforshare.service;
 
+import org.springframework.data.domain.Page;
+
+
 import com.rentalsforshare.entity.Comment;
 
 public interface CommentService  {
+	
+	Page<Comment> getByPageAndKeyword(int page, String filter) throws Exception;
 	
 	Comment getById(Integer id);
 	
