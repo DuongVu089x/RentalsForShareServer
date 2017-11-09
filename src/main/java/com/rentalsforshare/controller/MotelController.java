@@ -31,7 +31,6 @@ public class MotelController {
 		return new ResponseEntity<>(motelService.searchByPageAndKeyword(keyword, page), HttpStatus.OK);
 
 	}
-
 	@RequestMapping(value = "/get-by-id", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> getById(@RequestParam(required = true, defaultValue = "0", value = "id") int id)
 			throws Exception {

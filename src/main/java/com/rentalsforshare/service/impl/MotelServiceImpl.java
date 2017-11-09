@@ -31,12 +31,12 @@ public class MotelServiceImpl implements MotelService {
 
 	@Override
 	public Motel getByWard(String ward) throws Exception {
-		return motelRepository.getByCity(ward);
+		return motelRepository.getByWard(ward);
 	}
 
 	@Override
 	public Motel getByStreet(String street) throws Exception {
-		return motelRepository.getByCity(street);
+		return motelRepository.getByStreet(street);
 	}
 
 	@Override
