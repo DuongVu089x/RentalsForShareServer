@@ -2,7 +2,9 @@ package com.rentalsforshare.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "motels")
@@ -24,6 +29,7 @@ public class Motel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	private String title;
 	private String description;
 	private BigDecimal price;
 	private String city;
@@ -33,14 +39,21 @@ public class Motel implements Serializable {
 	private String latitude;
 	private String longitude;
 	private Boolean available;
+	private String avatar;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Category.class)
 	@JoinColumn(name = "categoryId")
+	@JsonIgnore
 	private Category category;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Customer.class)
 	@JoinColumn(name = "customerId")
+	@JsonIgnore
 	private Customer customer;
+
+	@OneToMany(targetEntity = ImageMotel.class, mappedBy = "motel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<ImageMotel> imageMotels;
 
 	public Integer getId() {
 		return id;
@@ -48,6 +61,14 @@ public class Motel implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {
@@ -122,6 +143,14 @@ public class Motel implements Serializable {
 		this.available = available;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
 	public Category getCategory() {
 		return category;
 	}
@@ -136,6 +165,14 @@ public class Motel implements Serializable {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Set<ImageMotel> getImageMotels() {
+		return imageMotels;
+	}
+
+	public void setImageMotels(Set<ImageMotel> imageMotels) {
+		this.imageMotels = imageMotels;
 	}
 
 }
