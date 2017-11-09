@@ -34,7 +34,8 @@ public class MotelController {
 
 	}
 	@RequestMapping(value = "/get-by-id", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<?> getById(@RequestParam(required = true, defaultValue = "0", value = "id") int id) throws Exception {
+	public ResponseEntity<?> getById(@RequestParam(required = true, defaultValue = "0", value = "id") int id)
+			throws Exception {
 		Motel motel = motelService.getById(id);
 		if (motel != null) {
 			return new ResponseEntity<>(motel, HttpStatus.OK);
@@ -42,6 +43,7 @@ public class MotelController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
 	/* CITY */
 	@RequestMapping(value = "/get-by-city", method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
@@ -77,13 +79,15 @@ public class MotelController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 	}
-	
+
 	@RequestMapping(value = "/insert", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> insert(@RequestBody Motel data) throws Exception {
-		
-		/*CHECK SOMETHING HERE?*/
-		
-		
+
+		/* CHECK SOMETHING HERE? */
+		if (motelService.getByAddress(data.getAddress()) != null) {
+
+		}
+
 		if (motelService.insertMotel(data)) {
 			Map<String, String> result = new HashMap<>();
 			result.put(Constants.STR_RESULT, Constants.STR_INSERT_SUCCESS);

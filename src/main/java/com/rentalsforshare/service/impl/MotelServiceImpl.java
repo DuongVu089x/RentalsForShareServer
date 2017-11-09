@@ -31,12 +31,12 @@ public class MotelServiceImpl implements MotelService {
 
 	@Override
 	public Motel getByWard(String ward) throws Exception {
-		return motelRepository.getByCity(ward);
+		return motelRepository.getByWard(ward);
 	}
 
 	@Override
 	public Motel getByStreet(String street) throws Exception {
-		return motelRepository.getByCity(street);
+		return motelRepository.getByStreet(street);
 	}
 
 	@Override
@@ -68,5 +68,11 @@ public class MotelServiceImpl implements MotelService {
 		}
 		return result;
 
+	}
+
+	@Override
+	public Motel getByAddress(String address) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
