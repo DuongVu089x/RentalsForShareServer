@@ -21,7 +21,7 @@ public class MotelServiceImpl implements MotelService {
 	@Override
 	public Page<Motel> searchByPageAndKeyword(String keyword, int page) throws Exception {
 		PageRequest request = new PageRequest(page - 1, Constants.PAGE_SIZE, Sort.Direction.ASC, "id");
-		return motelRepository.searchByPageAndKeyword(keyword,request);
+		return motelRepository.searchByPageAndKeyword(keyword, request);
 	}
 
 	@Override
@@ -37,6 +37,11 @@ public class MotelServiceImpl implements MotelService {
 	@Override
 	public Motel getByStreet(String street) throws Exception {
 		return motelRepository.getByCity(street);
+	}
+
+	@Override
+	public Motel getByAddress(String address) throws Exception {
+		return motelRepository.getByAddress(address);
 	}
 
 	@Override
@@ -70,9 +75,4 @@ public class MotelServiceImpl implements MotelService {
 
 	}
 
-	@Override
-	public Motel getByAddress(String address) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
