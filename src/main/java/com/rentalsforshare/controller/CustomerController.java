@@ -102,4 +102,12 @@ public class CustomerController {
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
+	
+	@RequestMapping(value = "/get-by-page-and-keyword", method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?>  getByPageAndKeyword(
+			@RequestParam(required = true, defaultValue = "0", value = "page") int page,
+			@RequestParam(required = true, defaultValue = "", value = "filter") String filter) throws Exception {
+		return new ResponseEntity<>(customerService.getByPageAndKeyword(page, filter),HttpStatus.NOT_FOUND);
+	}
 }

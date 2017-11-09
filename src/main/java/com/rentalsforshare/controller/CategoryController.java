@@ -36,10 +36,10 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/get-by-id", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<?> getById(@RequestBody Category data) throws Exception {
-		Category category = categoryService.getById(data.getId());
+	public ResponseEntity<?> getById(@RequestParam(required = true, defaultValue = "0", value = "id") int id) throws Exception {
+		Category category = categoryService.getById(id);
 		if (category != null) {
-			return new ResponseEntity<>(data, HttpStatus.OK);
+			return new ResponseEntity<>(category, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
