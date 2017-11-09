@@ -25,11 +25,11 @@ public class MotelController {
 	@Autowired
 	private MotelService motelService;
 
-	@RequestMapping(value = "/search", params = { "keyword", "page" }, method = RequestMethod.POST, produces = {
+	@RequestMapping(value = "/get-by-page-and-keyword", params = { "keyword", "page" }, method = RequestMethod.POST, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> search(@RequestParam(value = "keyword") String keyword,
 			@RequestParam(value = "page") int page) throws Exception {
-		return new ResponseEntity<>(motelService.searchByPageAndKeyword(keyword, page), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(motelService.searchByPageAndKeyword(keyword, page), HttpStatus.OK);
 
 	}
 
