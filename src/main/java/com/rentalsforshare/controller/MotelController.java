@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rentalsforshare.common.util.Constants;
-import com.rentalsforshare.entity.Comment;
 import com.rentalsforshare.entity.Motel;
-import com.rentalsforshare.entity.Vote;
 import com.rentalsforshare.service.MotelService;
 
 @RestController
@@ -85,7 +83,7 @@ public class MotelController {
 
 		/* CHECK SOMETHING HERE? */
 		if (motelService.getByAddress(data.getAddress()) != null) {
-
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
 		if (motelService.insertMotel(data)) {
