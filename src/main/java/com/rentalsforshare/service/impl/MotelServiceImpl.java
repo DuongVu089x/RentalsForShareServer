@@ -69,4 +69,10 @@ public class MotelServiceImpl implements MotelService {
 		return result;
 
 	}
+
+	@Override
+	public Motel getByAddress(String address) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
