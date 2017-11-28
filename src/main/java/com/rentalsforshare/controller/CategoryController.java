@@ -47,7 +47,6 @@ public class CategoryController {
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> insert(@RequestBody Category data) throws Exception {
-		// System.out.println(data.getName());
 		if (categoryService.getByName(data.getName()) != null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}

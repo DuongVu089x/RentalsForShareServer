@@ -71,11 +71,21 @@ public class JwtFilter extends GenericFilterBean {
 				String role = infoUser.split("-")[0];
 				String email = infoUser.split("-")[1];
 
-				if (role.equals("user") && url.contains("admin")) {
-					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa đăng nhập");
-					return;
+				// Url for admin
+				if (url.contains("admin")) {
+					if (role.equals("user")) {
+						response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+						response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Chưa đăng nhập");
+						return;
+					}
+					// Check authentication
+					
+					
+				// Url for Customer
+				} else if (!url.contains("get") || url.contains("")) {
+					
 				}
+
 				chain.doFilter(req, res);
 			}
 		}

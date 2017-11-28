@@ -25,4 +25,7 @@ public interface MotelRepository extends JpaRepository<Motel, Integer> {
 
 	Motel getByAddress(String address) throws Exception;
 
+	@Query(value ="SELECT COUNT(m) FROM Motel m WHERE m.address LIKE %:keyword% OR m.city LIKE %:keyword% OR m.ward LIKE %:keyword%  OR m.street LIKE %:keyword%")
+	Integer getTotalPage(@Param("keyword") String keyword) throws Exception;
+
 }

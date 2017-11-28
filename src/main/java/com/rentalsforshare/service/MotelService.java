@@ -7,7 +7,9 @@ import com.rentalsforshare.entity.Motel;
 public interface MotelService {
 
 	Page<Motel> searchByPageAndKeyword(String keyword, int page) throws Exception;
-
+	
+	Integer getTotalPage(String keyword) throws Exception;
+	
 	Motel getByCity(String city) throws Exception;
 
 	Motel getByWard(String ward) throws Exception;
@@ -23,5 +25,7 @@ public interface MotelService {
 	boolean updateMotel(Motel motel) throws Exception;
 
 	boolean delete(Integer id) throws Exception;
+
+	
 
 }

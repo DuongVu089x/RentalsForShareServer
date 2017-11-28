@@ -23,7 +23,12 @@ public class MotelServiceImpl implements MotelService {
 		PageRequest request = new PageRequest(page - 1, Constants.PAGE_SIZE, Sort.Direction.ASC, "id");
 		return motelRepository.searchByPageAndKeyword(keyword, request);
 	}
-
+	
+	@Override
+	public Integer getTotalPage(String keyword) throws Exception {
+		return motelRepository.getTotalPage(keyword);
+	}
+	
 	@Override
 	public Motel getByCity(String city) throws Exception {
 		return motelRepository.getByCity(city);
@@ -74,5 +79,4 @@ public class MotelServiceImpl implements MotelService {
 		return result;
 
 	}
-
 }
