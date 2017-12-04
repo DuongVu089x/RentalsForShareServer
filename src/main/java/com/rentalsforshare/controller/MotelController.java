@@ -39,6 +39,7 @@ public class MotelController {
 	public ResponseEntity<?> searchByUser(@RequestParam(value = "keyword") String keyword,
 			@RequestParam(value = "page") int page, @RequestHeader HttpHeaders headers) throws Exception {
 		headers.get("authorization").get(0);
+		
 		return new ResponseEntity<>(motelService.searchByUserPageAndKeyword(headers.get("authorization").get(0), keyword, page), HttpStatus.OK);
 
 	}
