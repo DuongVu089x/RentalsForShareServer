@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rentalsforshare.common.util.Constants;
+import com.rentalsforshare.config.token.HandlerToken;
 import com.rentalsforshare.entity.Motel;
 import com.rentalsforshare.repository.MotelRepository;
 import com.rentalsforshare.service.MotelService;
@@ -18,10 +19,20 @@ public class MotelServiceImpl implements MotelService {
 	@Autowired
 	private MotelRepository motelRepository;
 
+	@Autowired
+	private HandlerToken handlerToken;
+	
 	@Override
 	public Page<Motel> searchByPageAndKeyword(String keyword, int page) throws Exception {
 		PageRequest request = new PageRequest(page - 1, Constants.PAGE_SIZE, Sort.Direction.ASC, "id");
 		return motelRepository.searchByPageAndKeyword(keyword, request);
+	}
+	
+	@Override
+	public Page<Motel> searchByUserPageAndKeyword(String token, String keyword, int page) {
+		handlerToken.parseUserFromToken(token.substring(7));
+		PageRequest request = new PageRequest(page - 1, Constants.PAGE_SIZE, Sort.Direction.ASC, "id");
+		return motelRepository.searByUserPageAndKeyword(handlerToken.parseUserFromToken(token.substring(7)).split("-")[1], keyword, request);
 	}
 	
 	@Override

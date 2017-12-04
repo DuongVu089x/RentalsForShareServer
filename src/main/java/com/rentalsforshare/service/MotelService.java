@@ -1,5 +1,7 @@
 package com.rentalsforshare.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import com.rentalsforshare.entity.Motel;
@@ -25,6 +27,8 @@ public interface MotelService {
 	boolean updateMotel(Motel motel) throws Exception;
 
 	boolean delete(Integer id) throws Exception;
+
+	Page<Motel> searchByUserPageAndKeyword(String token, String keyword, int page);
 
 	
 

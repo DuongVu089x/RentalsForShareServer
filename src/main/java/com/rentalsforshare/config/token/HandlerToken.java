@@ -32,13 +32,13 @@ public class HandlerToken {
 	 */
 	public String parseUserFromToken(String token) {
 		String result = Constants.STR_BLANK;
-		if (tokens.contains(token)) {
+		/*if (tokens.contains(token)) {*/
 			try {
 				result = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
 			} catch (Exception e) {
 				tokens.remove(token);
 			}
-		}
+		/*}*/
 		return result;
 	}
 
@@ -50,7 +50,7 @@ public class HandlerToken {
 	 */
 	public String createTokenForUser(String username) {
 		Date now = new Date();
-		Date expiration = new Date(now.getTime() + TimeUnit.HOURS.toMillis(1l));
+		Date expiration = new Date(now.getTime() + TimeUnit.DAYS.toMillis(30l));
 
 		String result = Jwts.builder().setId(UUID.randomUUID().toString()).setSubject(username).setIssuedAt(now)
 				.setExpiration(expiration).signWith(SignatureAlgorithm.HS512, secret).compact();

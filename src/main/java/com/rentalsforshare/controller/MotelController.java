@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +31,15 @@ public class MotelController {
 	public ResponseEntity<?> search(@RequestParam(value = "keyword") String keyword,
 			@RequestParam(value = "page") int page) throws Exception {
 		return new ResponseEntity<>(motelService.searchByPageAndKeyword(keyword, page), HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "get-by-user-page-and-keyword", params = { "keyword", "page" }, method = RequestMethod.POST, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?> searchByUser(@RequestParam(value = "keyword") String keyword,
+			@RequestParam(value = "page") int page, @RequestHeader HttpHeaders headers) throws Exception {
+		headers.get("authorization").get(0);
+		return new ResponseEntity<>(motelService.searchByUserPageAndKeyword(headers.get("authorization").get(0), keyword, page), HttpStatus.OK);
 
 	}
 	
@@ -87,10 +98,9 @@ public class MotelController {
 	@RequestMapping(value = "/insert", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<?> insert(@RequestBody Motel data) throws Exception {
 
-		/* CHECK SOMETHING HERE? */
-		if (motelService.getByAddress(data.getAddress()) != null) {
+		/*if (motelService.getByAddress(data.getAddress()) != null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
-		}
+		}*/
 
 		if (motelService.insertMotel(data)) {
 			Map<String, String> result = new HashMap<>();

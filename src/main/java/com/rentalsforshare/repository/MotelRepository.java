@@ -1,6 +1,7 @@
 package com.rentalsforshare.repository;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +28,10 @@ public interface MotelRepository extends JpaRepository<Motel, Integer> {
 
 	@Query(value ="SELECT COUNT(m) FROM Motel m WHERE m.address LIKE %:keyword% OR m.city LIKE %:keyword% OR m.ward LIKE %:keyword%  OR m.street LIKE %:keyword%")
 	Integer getTotalPage(@Param("keyword") String keyword) throws Exception;
+
+	@Query(value = "SELECT m FROM Motel m JOIN m.customer c "
+			+ "WHERE c.email LIKE %:email% "
+			+ "AND (m.address LIKE %:keyword% OR m.city LIKE %:keyword% OR m.ward LIKE %:keyword%  OR m.street LIKE %:keyword%)")
+	Page<Motel> searByUserPageAndKeyword(@Param("email") String email, @Param("keyword") String keyword, Pageable request);
 
 }
